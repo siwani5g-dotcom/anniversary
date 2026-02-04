@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy 4th Anniversary ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ===== BASE ===== */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Dancing Script', cursive;
+  overflow: hidden;
+}
+
+/* ===== FLOATING HEARTS ===== */
+.hearts {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.hearts span {
+  position: absolute;
+  bottom: -40px;
+  animation: floatUp linear infinite;
+  opacity: 0.8;
+}
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
+}
+
+/* ===== ENVELOPE ===== */
+.envelope-wrapper {
+  width: 320px;
+  height: 220px;
+  cursor: pointer;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  z-index: 2;
+}
+.envelope-wrapper.fade-out {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+.envelope {
+  width: 100%;
+  height: 100%;
+  background: #ff6f91;
+  border-radius: 0 0 14px 14px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+  position: relative;
+}
+.flap {
+  position: absolute;
+  top: 0;
+  border-left: 160px solid transparent;
+  border-right: 160px solid transparent;
+  border-top: 110px solid #ff4d6d;
+}
+.envelope-text {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  font-size: 22px;
+}
+
+/* ===== LETTER ===== */
+.letter {
+  display: none;
+  max-width: 440px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  animation: fadeInUp 1s ease forwards;
+  cursor: pointer;
+  z-index: 2;
+}
+.letter.show { display: block; }
+
+h1 {
+  text-align: center;
+  color: #ff4d6d;
+}
+p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #444;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+/* ===== CAKE ===== */
+.cake-scene {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+.cake {
+  position: relative;
+  top: -30px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+.tier {
+  height: 50px;
+  margin: 6px auto;
+  border-radius: 10px;
+  transform: scaleY(0);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+@keyframes bounce {
+  0% { transform: scaleY(0); }
+  70% { transform: scaleY(1.1); }
+  85% { transform: scaleY(0.95); }
+  100% { transform: scaleY(1); }
+}
+.tier.show { animation: bounce 0.6s ease-out forwards; }
+.base { width: 200px; background: #FFD93D; }
+.mid  { width: 150px; background: #4D96FF; }
+.top  { width: 110px; background: #6BCF63; }
+
+/* candle */
+.candle {
+  width: 10px;
+  height: 35px;
+  background: red;
+  margin-bottom: 6px;
+  opacity: 0;
+}
+.candle.show { opacity: 1; }
+
+/* flame */
+.flame {
+  width: 18px;
+  height: 18px;
+  background: radial-gradient(circle, gold, orange);
+  border-radius: 50%;
+  margin-bottom: 4px;
+  animation: flicker 1s infinite;
+}
+.flame.out {
+  opacity: 0;
+  animation: none;
+}
+@keyframes flicker {
+  50% { transform: scale(1.2); }
+}
+
+/* ===== FINAL NOTE ===== */
+.final-note {
+  display: none;
+  max-width: 420px;
+  background: rgba(255,255,255,0.95);
+  padding: 30px;
+  border-radius: 18px;
+  text-align: center;
+  animation: fadeInUp 1.2s ease forwards;
+  box-shadow:
+    0 0 15px rgba(255,105,180,0.6),
+    0 0 30px rgba(255,182,193,0.8);
+  z-index: 2;
+}
+
+/* ===== CONFETTI ===== */
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+.confetti span {
+  position: absolute;
+  top: -10px;
+  width: 8px;
+  height: 14px;
+  animation: fall linear forwards;
+}
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(360deg); }
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="hearts" id="hearts"></div>
+<div class="confetti" id="confetti"></div>
+
+<!-- ENVELOPE -->
+<div class="envelope-wrapper" id="envelope" onclick="openLetter()">
+  <div class="envelope">
+    <div class="flap"></div>
+    <div class="envelope-text">Anniversary ❤️</div>
+  </div>
+</div>
+
+<!-- LETTER -->
+<div class="letter" id="letter" onclick="showCake()">
+  <h1>Happy 4th Anniversary, my love ❤️</h1>
+
+  <p>Four years ago, I had no idea that choosing you would quietly become the most important decision of my life. I didn’t know that one choice would turn into thousands of moments—small and ordinary, yet extraordinary—each one shaping who I am and who we are together. Loving you has been the most beautiful journey I’ve ever known, a journey filled with growth, patience, laughter, understanding, and a love that feels deeper, steadier, and more meaningful with every passing day. With you, love has never been loud or fleeting. It has been gentle, consistent, and real. It has taught me how to grow without fear, how to be patient without resentment, and how to trust without hesitation. Even in moments when life felt uncertain or overwhelming, your presence reminded me that I was never alone. You showed me that love isn’t just about the happy days—it’s about staying, choosing, and holding on through everything in between. You are my safe place in a world that doesn’t always slow down. You are my calm when my thoughts are restless, my comfort when words fail me, and the person my heart instinctively turns toward, no matter where I am. Through every high and every low, you have been my constant—steady, reassuring, and unwavering. In your arms, I’ve found peace. In your love, I’ve found home. I am endlessly grateful for the way you love me—not just in grand gestures, but in the quiet ways that matter most. In the patience you show, the understanding you give, the support you offer without being asked. Thank you for seeing me completely and loving me anyway. Thank you for growing with me, for learning with me, and for building a life beside me that feels both grounding and full of possibility. Every day with you feels like a choice I would make again without hesitation. I choose you in the easy moments and in the hard ones. I choose you in laughter and in silence. I choose you today, tomorrow, and in every lifetime after this one. Thank you for four incredible years of love, partnership, and unwavering support—and for all the forever still waiting for us ahead. can you add this paragraph in the letter</p>
+
+  <p><strong>I love you, always and endlessly ❤️</strong></p>
+</div>
+
+<!-- CAKE -->
+<div class="cake-scene" id="cakeScene" onclick="nextCakeStep()">
+  <div class="cake">
+    <div class="tier base"></div>
+    <div class="tier mid"></div>
+    <div class="tier top"></div>
+    <div class="candle" id="candle"></div>
+    <div class="flame" id="flame"></div>
+  </div>
+</div>
+
+<!-- FINAL NOTE -->
+<div class="final-note" id="finalNote">
+  <h1>Happiest Anniversary ❤️</h1>
+  <p> Happy 4th Anniversary, my love.
+These four years with you have been truly special. We’ve grown together, shared countless memories, and learned what love really means. Through every high and low, you have been my constant, my support, and my safe place.
+
+Thank you for loving me with patience and care, and for always standing by my side. I’m so grateful for the life we’re building together. I choose you today, tomorrow, and always. Here’s to four beautiful years—and to many more still ahead. ❤️
+Happy Anniversary 🤍.<br>Forever and always.</p>
+</div>
+
+<script>
+/* hearts */
+const heartsBox = document.getElementById('hearts');
+setInterval(() => {
+  const h = document.createElement('span');
+  h.textContent = '💖';
+  h.style.left = Math.random()*100 + 'vw';
+  h.style.fontSize = 14 + Math.random()*16 + 'px';
+  h.style.animationDuration = 6 + Math.random()*6 + 's';
+  heartsBox.appendChild(h);
+  setTimeout(() => h.remove(), 12000);
+}, 600);
+
+/* confetti */
+function launchConfetti() {
+  for (let i = 0; i < 80; i++) {
+    const c = document.createElement('span');
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.background = `hsl(${Math.random()*360},80%,60%)`;
+    c.style.animationDuration = 3 + Math.random()*2 + 's';
+    document.getElementById('confetti').appendChild(c);
+    setTimeout(() => c.remove(), 5000);
+  }
+}
+
+/* flow */
+let cakeStep = 0;
+function openLetter() {
+  envelope.classList.add('fade-out');
+  setTimeout(() => {
+    envelope.style.display = 'none';
+    letter.classList.add('show');
+  }, 800);
+}
+function showCake() {
+  letter.style.display = 'none';
+  cakeScene.style.display = 'flex';
+  document.querySelector('.base').classList.add('show');
+  setTimeout(() => document.querySelector('.mid').classList.add('show'), 500);
+  setTimeout(() => document.querySelector('.top').classList.add('show'), 1000);
+  setTimeout(() => candle.classList.add('show'), 1500);
+}
+function nextCakeStep() {
+  cakeStep++;
+  if (cakeStep === 1) flame.classList.add('out');
+  if (cakeStep === 2) {
+    cakeScene.style.display = 'none';
+    finalNote.style.display = 'block';
+    launchConfetti();
+  }
+}
+</script>
+
+</body>
+</html>
